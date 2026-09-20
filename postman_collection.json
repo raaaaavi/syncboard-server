@@ -1,0 +1,97 @@
+{
+  "info": {
+    "name": "SyncBoard API",
+    "description": "Milestone 3 — REST API backed by MongoDB Atlas for the SyncBoard (CollabBoard) client.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "boardId", "value": "b1" },
+    { "key": "taskId", "value": "t1" }
+  ],
+  "item": [
+    {
+      "name": "Boards",
+      "item": [
+        {
+          "name": "List boards",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/boards" }
+        },
+        {
+          "name": "Get board by id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/boards/{{boardId}}" }
+        },
+        {
+          "name": "Get board columns (with tasks)",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/boards/{{boardId}}/columns" }
+        },
+        {
+          "name": "Create board (seeds default columns)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/boards",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"New Board From Postman\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Toggle star on a board",
+          "request": { "method": "PATCH", "url": "{{baseUrl}}/api/boards/{{boardId}}/star" }
+        }
+      ]
+    },
+    {
+      "name": "Tasks",
+      "item": [
+        {
+          "name": "List tasks for a board",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks?boardId={{boardId}}" }
+        },
+        {
+          "name": "Get task by id",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/tasks/{{taskId}}" }
+        },
+        {
+          "name": "Create task",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/tasks",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"boardId\": \"b1\",\n  \"columnId\": \"b1-todo\",\n  \"title\": \"Write API tests\",\n  \"tag\": \"Backend\",\n  \"assigneeId\": \"u2\",\n  \"due\": \"2026-09-05\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Move task to another column",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}/move",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"columnId\": \"b1-doing\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete task",
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/api/tasks/{{taskId}}" }
+        }
+      ]
+    },
+    {
+      "name": "Team",
+      "item": [
+        {
+          "name": "List team members",
+          "request": { "method": "GET", "url": "{{baseUrl}}/api/team" }
+        }
+      ]
+    }
+  ]
+}
